@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iGV 基本盘维持运营手册_执行版</title>
+<style>
+:root{
+  --ink:#1a1d24; --ink2:#454b57; --ink3:#878d99; --line:#e6e5df; --line2:#d2d1c9;
+  --paper:#fcfbf8; --card:#ffffff; --panel:#f3f1eb;
+  --accent:#0f6e56; --accent-soft:#e3f4ee; --accent-deep:#0a4f40;
+  --amber:#8a5108; --amber-soft:#faedd6; --amber-line:#ec9a22;
+  --red:#a62c2c; --red-soft:#fbe9e9; --red-line:#df4b4a;
+  --blue:#1a5fa3; --blue-soft:#e7f0fa;
+  --gray-soft:#efede6;
+  --mono:'SF Mono',ui-monospace,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:14.5px;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;max-width:1320px;margin:0 auto}
+
+nav{width:240px;flex-shrink:0;border-right:1px solid var(--line);padding:28px 0 60px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--paper)}
+.nav-brand{padding:0 24px 18px;border-bottom:1px solid var(--line);margin-bottom:10px}
+.nav-brand .logo{font-weight:700;font-size:15.5px;letter-spacing:-.3px;line-height:1.3}
+.nav-brand .logo span{color:var(--accent)}
+.nav-brand .sub{font-size:11px;color:var(--ink3);margin-top:4px}
+.nav-part{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.8px;padding:15px 24px 4px;text-transform:uppercase}
+nav a{display:block;padding:5.5px 24px 5.5px 28px;color:var(--ink2);text-decoration:none;font-size:12.5px;border-left:2px solid transparent;transition:all .12s}
+nav a:hover{color:var(--accent);background:var(--accent-soft)}
+nav a.active{color:var(--accent);background:var(--accent-soft);border-left-color:var(--accent);font-weight:600}
+
+main{flex:1;padding:42px 52px 100px;max-width:920px;min-width:0}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--accent);margin-bottom:12px}
+h1{font-size:29px;font-weight:700;letter-spacing:-.6px;line-height:1.2;margin-bottom:12px}
+.lede{font-size:15px;color:var(--ink2);max-width:660px}
+.meta-bar{display:flex;gap:26px;flex-wrap:wrap;margin-top:20px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.meta-bar .k{color:var(--ink3);font-size:10px;font-weight:700;letter-spacing:.4px;margin-bottom:2px}
+.meta-bar .v{color:var(--ink);font-weight:500;font-size:12.5px}
+
+/* part divider */
+.part-head{margin:60px 0 8px;padding:18px 22px;background:var(--ink);border-radius:11px;color:#fff}
+.part-head .pk{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:#9ce0ca;font-weight:600}
+.part-head .pt{font-size:21px;font-weight:700;letter-spacing:-.4px;margin-top:3px}
+.part-head .pd{font-size:12.5px;color:#b8bcc4;margin-top:5px}
+
+section{margin-top:36px;scroll-margin-top:16px}
+.sec-num{font-family:var(--mono);font-size:11.5px;color:var(--accent);font-weight:600;letter-spacing:.8px}
+h2{font-size:22px;font-weight:700;letter-spacing:-.4px;margin:5px 0 14px;line-height:1.25}
+h3{font-size:16px;font-weight:650;margin:24px 0 9px}
+h4{font-size:13.5px;font-weight:650;margin:16px 0 6px;color:var(--ink)}
+p{margin-bottom:11px;color:var(--ink2)}
+main p strong,li strong{color:var(--ink);font-weight:600}
+ul,ol{margin:0 0 12px;padding-left:20px}
+li{margin-bottom:5px;color:var(--ink2)}
+
+.callout{border-radius:8px;padding:13px 17px;margin:15px 0;font-size:13.5px;border:1px solid}
+.callout .ct{font-weight:700;font-size:10.5px;letter-spacing:.6px;margin-bottom:5px}
+.callout p{margin-bottom:0;color:inherit}
+.callout p+p{margin-top:7px}
+.co-key{background:var(--accent-soft);border-color:#9ce0ca;color:var(--accent-deep)}
+.co-key .ct{color:var(--accent)}
+.co-warn{background:var(--amber-soft);border-color:var(--amber-line);color:#5f3705}
+.co-warn .ct{color:var(--amber)}
+.co-info{background:var(--blue-soft);border-color:#88b9ec;color:#0c447c}
+.co-info .ct{color:var(--blue)}
+
+.tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{background:var(--panel);text-align:left;padding:9px 12px;font-weight:650;font-size:11px;letter-spacing:.3px;color:var(--ink2);border-bottom:1px solid var(--line2);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#faf9f5}
+td strong{color:var(--ink)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink)}
+.rl{font-family:var(--mono);font-weight:700;color:var(--accent-deep)}
+.rl-red{font-family:var(--mono);font-weight:700;color:var(--red)}
+td.c,th.c{text-align:center}
+
+.pill{display:inline-block;padding:2px 8px;border-radius:18px;font-size:10.5px;font-weight:650;white-space:nowrap}
+.pill-hard{background:var(--red-soft);color:var(--red)}
+.pill-soft{background:var(--panel);color:var(--ink2)}
+.pill-keep{background:var(--accent-soft);color:var(--accent)}
+.pill-new{background:var(--blue-soft);color:var(--blue)}
+.pill-fix{background:var(--amber-soft);color:var(--amber)}
+.pill-main{background:var(--accent);color:#fff}
+.pill-aux{background:var(--panel);color:var(--ink2);border:1px solid var(--line2)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.dot-g{background:#1d9e75}.dot-y{background:#ec9a22}.dot-r{background:#df4b4a}
+
+.flow{margin:16px 0;border:1px solid var(--line);border-radius:9px;background:var(--card);padding:6px}
+.flow svg{display:block;width:100%;height:auto}
+
+.steps{counter-reset:s;margin:14px 0;padding:0;list-style:none}
+.steps>li{counter-increment:s;position:relative;padding:11px 0 11px 40px;border-bottom:1px solid var(--line)}
+.steps>li:last-child{border-bottom:none}
+.steps>li::before{content:counter(s);position:absolute;left:0;top:11px;width:25px;height:25px;background:var(--accent-soft);color:var(--accent-deep);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;font-family:var(--mono)}
+.steps>li .st{font-weight:650;color:var(--ink);font-size:13.5px;margin-bottom:1px}
+.steps>li .sd{font-size:12.5px;color:var(--ink2)}
+
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:16px 0}
+.kpi{border:1px solid var(--line);border-radius:9px;padding:13px 15px;background:var(--card)}
+.kpi .kv{font-size:20px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.kpi .kv .arrow{color:var(--ink3);font-size:14px;font-weight:500;margin:0 2px}
+.kpi .kl{font-size:11.5px;color:var(--ink2);margin-top:3px;line-height:1.4}
+
+.role{border:1px solid var(--line);border-radius:9px;padding:16px 18px;margin:13px 0;background:var(--card)}
+.role .r-top{display:flex;align-items:center;gap:11px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.role .r-badge{width:34px;height:34px;border-radius:8px;background:var(--accent-soft);color:var(--accent-deep);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.role .r-name{font-size:14.5px;font-weight:680}
+.role .r-count{font-size:11.5px;color:var(--ink3)}
+.role .r-grid{display:grid;grid-template-columns:82px 1fr;gap:5px 12px;font-size:12.5px}
+.role .r-grid .rk{color:var(--ink3);font-weight:600;font-size:11.5px}
+
+.raci span.b{display:inline-block;width:19px;height:19px;border-radius:5px;font-size:10.5px;font-weight:700;text-align:center;line-height:19px;font-family:var(--mono)}
+.raci .R{background:var(--accent);color:#fff}
+.raci .A{background:var(--red);color:#fff}
+.raci .C{background:var(--amber-soft);color:var(--amber)}
+.raci .I{background:var(--panel);color:var(--ink3)}
+.legend{display:flex;gap:15px;flex-wrap:wrap;font-size:11.5px;color:var(--ink3);margin:9px 0}
+.legend span{display:flex;align-items:center;gap:4px}
+
+.foot{margin-top:60px;padding-top:20px;border-top:2px solid var(--ink);font-size:11.5px;color:var(--ink3)}
+
+@media (max-width:960px){nav{display:none}main{padding:28px 20px 80px}h1{font-size:24px}.kpis{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <div class="nav-brand">
+    <div class="logo">iG<span>V</span> 基本盘维持<br>运营手册</div>
+    <div class="sub">执行版</div>
+  </div>
+
+  <div class="nav-part">一 · 基本盘说明</div>
+  <a href="#p1a">用户为何留在 iGV</a>
+  <a href="#p1b">核心运营动作</a>
+  <a href="#p1c">动作的价值</a>
+
+  <div class="nav-part">二 · 监测标准</div>
+  <a href="#p2a">服务履约标准</a>
+  <a href="#p2b">低价竞争力标准</a>
+  <a href="#p2c">游戏动态标准</a>
+  <a href="#p2d">复购监测标准</a>
+
+  <div class="nav-part">三 · 执行 SOP</div>
+  <a href="#p3a">服务履约大 SOP</a>
+  <a href="#p3b">低价监测 SOP</a>
+  <a href="#p3c">游戏动态 SOP</a>
+  <a href="#p3d">复购监测 SOP</a>
+
+  <div class="nav-part">四 · 职能与组织</div>
+  <a href="#p4a">角色与职能</a>
+  <a href="#p4b">协作机制</a>
+
+  <div class="nav-part">五 · 待办</div>
+  <a href="#p5">落地待办清单</a>
+</nav>
+
+<main>
+  <div id="top">
+    <div class="eyebrow">服务运营负责人 · 卖家管理客服 · 数据 BI</div>
+    <h1>iGV 基本盘维持运营手册</h1>
+    <p class="lede">本手册回答四件事:用户为什么留在 iGV、维持基本盘要守什么标准、每天每周怎么执行、谁来负责。目标是把基本盘运营机制化,让团队从被动转为主动,管理者只看周报、只处理升级项。</p>
+    <div class="meta-bar">
+      <div><div class="k">监控范围</div><div class="v">服务履约 + 低价竞争力</div></div>
+      <div><div class="k">数据区间</div><div class="v">2024.01–2026.05</div></div>
+      <div><div class="k">红线基准期</div><div class="v">2025.01–2026.05</div></div>
+      <div><div class="k">执行团队</div><div class="v">1 负责人 + 2 卖家管理客服</div></div>
+    </div>
+  </div>
+
+  <!-- ============ PART 1 ============ -->
+  <div class="part-head">
+    <div class="pk">PART 01</div>
+    <div class="pt">基本盘说明</div>
+    <div class="pd">先讲清楚用户为什么留下、我们要守什么、守住的价值是什么。结论先行。</div>
+  </div>
+
+  <section id="p1a">
+    <div class="sec-num">1.1</div>
+    <h2>用户为什么现在还留在 iGV</h2>
+    <div class="callout co-key">
+      <div class="ct">结论</div>
+      <p>在流量与流水均无增长的现状下,留下来的用户主要是<strong>金币(Coins)类的复购用户</strong>。他们留下的关键是三点:<strong>服务体验好、价格够低、所玩游戏(以 Dofus 为主)有持续热度</strong>。其中游戏热度不可控,而<strong>服务与低价是平台可控、并已经做好的两件事</strong>——这就是基本盘要守住的核心。</p>
+    </div>
+
+    <h4>支撑结论的关键数据</h4>
+    <div class="kpis">
+      <div class="kpi"><div class="kv">42.9%</div><div class="kl">Coins 买家复购率(2026),远高于 Accounts 的 20%——服务好的品类,用户更愿意回来</div></div>
+      <div class="kpi"><div class="kv">58%</div><div class="kl">直接访问用户复购率,且逐年上升(49%→55%→58%)——靠信任主动回来的人在增加</div></div>
+      <div class="kpi"><div class="kv">2.36 次</div><div class="kl">Coins 用户人均复购次数——金币是高频补给型消费,复购是基本盘的支柱</div></div>
+    </div>
+    <p>三组数据指向同一结论:<strong>留存集中在服务做得好的高频品类,且越来越依赖"用户主动回来"而非买量</strong>。这说明沉淀下来的是信任,而信任来自服务与低价。服务侧的改善是实打实的——<strong>准时递送率 71%→92%、退款率 14%→3.7%、好评率 91%→96%</strong>(2024→2026),用户留存的改善正建立在这个基础上。</p>
+    <p style="font-size:12.5px;color:var(--ink3)">注:Dofus 单一游戏约占总 GMV 39%,热度由游戏方版本节奏驱动,平台不可控,只能追踪与承接(见 §2.3 / §3.3)。</p>
+  </section>
+
+  <section id="p1b">
+    <div class="sec-num">1.2</div>
+    <h2>维持基本盘的核心运营动作</h2>
+    <p>对应"用户为什么留下",要守的就是可控的两件事,加两项辅助监测。判断要不要重点守,标准是:这件事停了,用户会不会走。</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:140px">运营动作</th><th style="width:100px">定位</th><th>核心做法</th></tr></thead>
+      <tbody>
+        <tr><td><strong>服务履约维持</strong></td><td><span class="pill pill-main">核心</span></td><td>设红线 + 趋势线,全业务监控、亮灯处置。服务做差用户一定走;且服务是平台级信任,任一业务出问题都影响用户对整个平台的信任。</td></tr>
+        <tr><td><strong>低价竞争力监测</strong></td><td><span class="pill pill-main">核心</span></td><td>监测已具备价格优势的指定业务,守住优势不滑坡。低价没了用户会走。</td></tr>
+        <tr><td><strong>游戏动态追踪</strong></td><td><span class="pill pill-aux">辅助</span></td><td>不可控,只追踪,用于解释订单量变化。</td></tr>
+        <tr><td><strong>复购监测</strong></td><td><span class="pill pill-aux">辅助</span></td><td>不设红线。复购是结果指标,异常时用来反查是需求还是服务出了问题。</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="p1c">
+    <div class="sec-num">1.3</div>
+    <h2>维持核心运营动作的价值</h2>
+    <p>守住基本盘的本质,是守住"用户为什么选 iGV"这件事本身。在此前提下,这套机制还带来三层管理价值:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:36px">#</th><th style="width:190px">价值</th><th>说明</th><th style="width:110px">对应待办</th></tr></thead>
+      <tbody>
+        <tr><td><strong>a</strong></td><td><strong>管理者精力释放</strong><br><span style="font-size:11px;color:var(--accent)">最大价值</span></td><td>团队由被动等发现转为主动驱动,管理者只看周报、只处理升级项,从而把精力投入第二层增长与第三层突破。</td><td><span class="pill pill-soft">#1 #3 #4</span></td></tr>
+        <tr><td><strong>b</strong></td><td><strong>团队工作提效</strong></td><td>监控自动化、命中前置过滤、规则固化,减少机械核实与重复盯盘。</td><td><span class="pill pill-soft">#1 #2 #3</span></td></tr>
+        <tr><td><strong>c</strong></td><td><strong>可视化闭环</strong></td><td>处置效果回写上系统,裁决—效果—复盘形成闭环,动作有效性可评估。</td><td><span class="pill pill-soft">#6</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <div class="part-head">
+    <div class="pk">PART 02</div>
+    <div class="pt">监测标准</div>
+    <div class="pd">这一部分只规定"判断好坏的尺子":指标、红线、阈值、分档。具体怎么操作见第三部分。</div>
+  </div>
+
+  <section id="p2a">
+    <div class="sec-num">2.1</div>
+    <h2>服务履约标准</h2>
+
+    <h3>2.1.1　指标分组</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:130px">指标</th><th style="width:70px">类型</th><th>含义</th><th style="width:110px">处置</th></tr></thead>
+      <tbody>
+        <tr><td><strong>好评率</strong></td><td><span class="pill pill-hard">主要</span></td><td>用户满意、愿意再来的直接结果</td><td>硬红线 · 破线升级</td></tr>
+        <tr><td><strong>递送完成率</strong></td><td><span class="pill pill-hard">主要</span></td><td>订单是否最终送达</td><td>硬红线 · 破线升级</td></tr>
+        <tr><td><strong>准时递送率</strong></td><td><span class="pill pill-hard">主要</span></td><td>是否在承诺时间内送达</td><td>硬红线 · 破线升级</td></tr>
+        <tr><td><strong>订单退款率</strong></td><td><span class="pill pill-hard">主要</span></td><td>按笔数,用户遇到问题的频率</td><td>硬红线 · 破线升级</td></tr>
+        <tr><td>售后发起率</td><td><span class="pill pill-soft">次要</span></td><td>用户主动发起售后的比例</td><td>观察线 · 只提示</td></tr>
+        <tr><td>金额退款率</td><td><span class="pill pill-soft">次要</span></td><td>按 GMV,退款的损失规模</td><td>观察线 · 只提示</td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:12.5px;color:var(--ink3)">指标依据:四个主要指标覆盖履约全环节——能否送达、是否及时、是否满意、是否造成损失;次要指标补充售后频率与损失规模两个侧面。</p>
+
+    <h3>2.1.2　三层结构</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:110px">层级</th><th>看什么</th><th>报警逻辑</th></tr></thead>
+      <tbody>
+        <tr><td><strong>平台级</strong></td><td>全业务汇总 6 指标</td><td>绝对红线</td></tr>
+        <tr><td><strong>品类级</strong></td><td>ACC / Coins 各自 6 指标(其他品类暂不设)</td><td>各自绝对红线 + 趋势线</td></tr>
+        <tr><td><strong>业务级</strong></td><td>TOP10 业务、增长苗子各自</td><td><strong>业务自比趋势线为主</strong> + 套所属品类红线</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout co-key">
+      <div class="ct">分品类设红线的原因</div>
+      <p>品类服务特性不同,绝对值不可横向比。Accounts 售后率天然偏高、好评率天然偏低(账号交易存在封号、找回等问题);Items 准时率偏低(未必准时,但最终能送达,且不会出现封号找回等问题,差评和争议概率低)。所以红线各设各的,判断好坏看各自趋势。</p>
+    </div>
+
+    <h3>2.1.3　红线值</h3>
+    <p>取自 2025.01–2026.05 服务良好期的历史波动下沿/上沿。地板线,非目标线——达标即维持现状,无需追求更高。</p>
+    <h4>平台级红线</h4>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:150px">指标</th><th style="width:70px">类型</th><th style="width:120px">红线</th><th>跌破处理</th></tr></thead>
+      <tbody>
+        <tr><td>好评率</td><td><span class="pill pill-hard">主</span></td><td><span class="rl">≥ 90%</span></td><td>升级到管理者</td></tr>
+        <tr><td>递送完成率</td><td><span class="pill pill-hard">主</span></td><td><span class="rl">≥ 96%</span></td><td>升级到管理者</td></tr>
+        <tr><td>准时递送率</td><td><span class="pill pill-hard">主</span></td><td><span class="rl">≥ 85%</span></td><td>升级到管理者</td></tr>
+        <tr><td>订单退款率</td><td><span class="pill pill-hard">主</span></td><td><span class="rl">≤ 5%</span></td><td>升级到管理者</td></tr>
+        <tr><td>金额退款率</td><td><span class="pill pill-soft">次</span></td><td><span class="num">⚠ 8%</span></td><td>只提示</td></tr>
+        <tr><td>售后发起率</td><td><span class="pill pill-soft">次</span></td><td><span class="num">⚠ 17%</span></td><td>只提示</td></tr>
+      </tbody>
+    </table></div>
+    <h4>品类级红线(仅 Accounts 与 Coins)</h4>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:150px">指标</th><th style="width:70px">类型</th><th class="c">Accounts</th><th class="c">Coins</th></tr></thead>
+      <tbody>
+        <tr><td>好评率</td><td><span class="pill pill-hard">主</span></td><td class="c"><span class="rl">≥ 87%</span></td><td class="c"><span class="rl">≥ 87%</span></td></tr>
+        <tr><td>递送完成率</td><td><span class="pill pill-hard">主</span></td><td class="c"><span class="rl">≥ 98%</span></td><td class="c"><span class="rl">≥ 96%</span></td></tr>
+        <tr><td>准时递送率</td><td><span class="pill pill-hard">主</span></td><td class="c"><span class="rl">≥ 98%</span></td><td class="c"><span class="rl">≥ 85%</span></td></tr>
+        <tr><td>订单退款率</td><td><span class="pill pill-hard">主</span></td><td class="c"><span class="rl">≤ 5%</span></td><td class="c"><span class="rl">≤ 4%</span></td></tr>
+        <tr><td>金额退款率</td><td><span class="pill pill-soft">次</span></td><td class="c"><span class="num">⚠ 8%</span></td><td class="c"><span class="num">⚠ 5%</span></td></tr>
+        <tr><td>售后发起率</td><td><span class="pill pill-soft">次</span></td><td class="c"><span class="num">⚠ 20%</span></td><td class="c"><span class="num">⚠ 10%</span></td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:12.5px;color:var(--ink3)">其他品类订单量少,暂不单设;订单量增长后以平台级红线为参考。</p>
+    <h4>TOP10 业务与增长苗子红线</h4>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:120px">业务类型</th><th>红线设定</th><th>个体监控</th></tr></thead>
+      <tbody>
+        <tr><td><strong>TOP10 业务</strong></td><td>套用所属品类红线</td><td><strong>业务自比趋势线(更重要)</strong></td></tr>
+        <tr><td><strong>增长苗子</strong></td><td>若为新品类,套用平台级红线;有特殊情况届时单设</td><td><strong>业务自比趋势线</strong></td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:12.5px;color:var(--ink3)">业务级不为每个业务单设绝对值(无法维护),主要看它自己和自己历史比的趋势,品类红线只作为应达到的底线参考。</p>
+    <h4>长尾业务爆雷线(只兜底)</h4>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:160px">指标</th><th style="width:110px">爆雷线</th><th>触发动作</th></tr></thead>
+      <tbody>
+        <tr><td>递送完成率</td><td><span class="rl-red">&lt; 85%</span></td><td>大面积不发货风险,负责人介入</td></tr>
+        <tr><td>订单退款率</td><td><span class="rl-red">&gt; 15%</span></td><td>退款失控风险</td></tr>
+        <tr><td>好评率</td><td><span class="rl-red">&lt; 75%</span></td><td>口碑崩坏风险</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2.1.4　趋势线阈值</h3>
+    <p>红线防"跌穿地板",趋势线防"缓慢下滑"。两者并用。</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:110px">状态</th><th>触发条件(主要指标)</th><th>处置</th></tr></thead>
+      <tbody>
+        <tr><td><span class="dot dot-y"></span><strong>黄灯</strong></td><td>连续 <span class="num">3 周</span>环比下滑　或　单周环比跌幅 <span class="num">&gt; 5%</span></td><td>进周报,排查,无需升级</td></tr>
+        <tr><td><span class="dot dot-r"></span><strong>红灯</strong></td><td>连续 <span class="num">5 周</span>下滑　或　跌破红线</td><td>升级:品类级 48h 出整改方案;平台级到管理者</td></tr>
+        <tr><td><span class="dot dot-g"></span>绿灯</td><td>以上均未触发</td><td>周报一行汇总</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2.1.5　业务分档处置标准</h3>
+    <p>小业务卖家维护动力弱、服务指标常不理想,但单量小不影响品类/平台数据。按"未来会不会大"分三档。</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:110px">档位</th><th>是谁</th><th>约束</th><th>服务侧动作</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill pill-main">主力</span></td><td>单量大、已计入品类/平台数据</td><td>硬约束:达品类红线</td><td>破红线 → 48h 整改方案</td></tr>
+        <tr><td><span class="pill pill-new">增长苗子</span></td><td>单量小但重点培育/自然快增</td><td>软约束:趋势不许恶化</td><td>入名单即提前对卖家提要求;趋势恶化即排查</td></tr>
+        <tr><td><span class="pill pill-soft">长尾</span></td><td>天生小、无增长预期</td><td>仅防爆雷底线</td><td>不管日常;单量起来自动升档</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout co-key">
+      <div class="ct">核心:对增长苗子提前管</div>
+      <p>对增长苗子,服务是它做大的入场资格。等单量起来污染品类数据再补救,口碑已先于规模崩坏。所以增长苗子虽单量小,服务也要提前要求;长尾只兜爆雷底线,几乎零维护。</p>
+    </div>
+    <p style="font-size:12.5px"><strong>增长苗子名单进出:</strong> ① 战略入口——第二/三段明确列为重点的业务自动进,由管理者圈定;② 数据入口——系统识别"连续 N 月自然增速 &gt; X%"的业务,阈值由 BI 设定;③ 自动升档——长尾单量增长到接近计入品类数据时自动升为增长苗子。</p>
+  </section>
+
+  <section id="p2b">
+    <div class="sec-num">2.2</div>
+    <h2>低价竞争力标准</h2>
+    <p>低价是 Coins 业务的核心增长因子之一,与服务同等重要。仅监测<strong>已具备价格优势的指定业务</strong>;未实现低价的业务作为第二层增长方向,不在本手册。</p>
+    <div class="callout co-info">
+      <div class="ct">监测范围(4 个业务)</div>
+      <p><strong>Dofus 金币　·　WOW TBC 金币　·　FC 金币　·　Dofus Touch 金币</strong>。这些业务已通过 订单数 × 卖家数 × 平台竞争排序规则 形成价格优势,监测目标是守住优势不滑坡,而非开拓新优势。</p>
+    </div>
+    <h4>监测指标</h4>
+    <p>数据来源:技术每日爬虫,追踪我方与 5 个竞品的价格对比、价格排名、价差优势比。</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:140px">指标</th><th style="width:70px">类型</th><th>说明</th><th style="width:130px">红线</th></tr></thead>
+      <tbody>
+        <tr><td><strong>价差优势比</strong></td><td><span class="pill pill-hard">主</span></td><td>我方价格 vs 竞品最低价的差距百分比。比排名信息量更大——反映"差距有多大",而非只看排第几</td><td><span class="rl">待 BI 填入</span></td></tr>
+        <tr><td>价格排名</td><td><span class="pill pill-soft">辅</span></td><td>在 6 家中的排位(我方常态为前三,非第一)</td><td><span class="num">跌出前三 → 黄灯</span></td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:12.5px;color:var(--ink3)">价差优势比红线取各业务 2025–26 历史优势区间的下沿(与最低价差距拉大超过该下沿则报警)。具体数值待价格竞争数据导出后由 BI 填入。</p>
+  </section>
+
+  <section id="p2c">
+    <div class="sec-num">2.3</div>
+    <h2>游戏动态标准</h2>
+    <p>范围为 TOP10 游戏业务。游戏热度不可控,不设红线,只追踪,用于解释订单量变化。依托两张日历:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:180px">日历</th><th>用途</th><th style="width:90px">状态</th></tr></thead>
+      <tbody>
+        <tr><td>年度推测日历</td><td>年初预测本年度 TOP10 游戏更新节点</td><td><span class="pill pill-keep">已有</span></td></tr>
+        <tr><td>实际更新记录日历</td><td>记录实际发生的版本/活动更新点</td><td><span class="pill pill-keep">已有</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="p2d">
+    <div class="sec-num">2.4</div>
+    <h2>复购监测标准</h2>
+    <p>复购是辅助观察指标,<strong>不设红线、只监测</strong>。它异常时用来反查是需求还是服务出了问题。</p>
+    <div class="callout co-key">
+      <div class="ct">看绝对数,不看率</div>
+      <p>复购率上升可能只是因为边缘用户流失、只剩高频用户。所以主指标是<strong>复购买家绝对数</strong>,不是复购率。</p>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:130px">状态</th><th>触发</th><th>动作</th></tr></thead>
+      <tbody>
+        <tr><td><span class="dot dot-y"></span>下钻归因</td><td>复购买家绝对数连续 <span class="num">3 周</span>下滑</td><td>下钻:是需求还是服务问题</td></tr>
+        <tr><td><span class="dot dot-r"></span>上报</td><td>连续 <span class="num">4 周</span>下滑　或　单月环比跌幅 <span class="num">&gt; 10%</span></td><td>下钻结论上报管理者</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <div class="part-head">
+    <div class="pk">PART 03</div>
+    <div class="pt">执行动作 SOP</div>
+    <div class="pd">这一部分只讲"怎么操作":流程、步骤、频率。判断标准见第二部分。</div>
+  </div>
+
+  <section id="p3a">
+    <div class="sec-num">3.1</div>
+    <h2>服务履约大 SOP(两层联动)</h2>
+    <p>服务监控分两层:<strong>第一层卖家治理</strong>(抓坏卖家,已有机制)+ <strong>第二层数据监控</strong>(抓坏趋势,新建)。第一层处理"已知坏卖家",第二层发现"未知坏趋势"再反查出坏卖家或坏原因,<strong>第二层下钻结论大量回流为第一层处置输入</strong>。</p>
+    <div class="flow">
+      <svg viewBox="0 0 900 250" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+        <defs>
+          <marker id="ab" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L7,3 L0,6 Z" fill="#1a5fa3"/></marker>
+          <marker id="ag" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L7,3 L0,6 Z" fill="#0f6e56"/></marker>
+        </defs>
+        <text x="24" y="26" font-size="11.5" font-weight="700" fill="#1a5fa3">第二层 · 数据监控</text>
+        <rect x="24" y="34" width="186" height="50" rx="8" fill="#e7f0fa" stroke="#1a5fa3" stroke-width="1.1"/>
+        <text x="117" y="56" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0c447c">每日健康度监控</text>
+        <text x="117" y="73" text-anchor="middle" font-size="11" fill="#1a5fa3">红线 + 趋势线扫描</text>
+        <line x1="210" y1="59" x2="244" y2="59" stroke="#1a5fa3" stroke-width="1.3" marker-end="url(#ab)"/>
+        <rect x="246" y="34" width="160" height="50" rx="8" fill="#e7f0fa" stroke="#1a5fa3" stroke-width="1.1"/>
+        <text x="326" y="56" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0c447c">周下钻 · 归因</text>
+        <text x="326" y="73" text-anchor="middle" font-size="11" fill="#1a5fa3">业务为何亮灯</text>
+        <line x1="406" y1="59" x2="440" y2="59" stroke="#1a5fa3" stroke-width="1.3" marker-end="url(#ab)"/>
+        <path d="M500,28 L540,59 L500,90 L460,59 Z" fill="#f3f1eb" stroke="#878d99" stroke-width="1.1"/>
+        <text x="500" y="56" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1d24">分诊</text>
+        <text x="500" y="71" text-anchor="middle" font-size="10.5" fill="#454b57">问题归谁</text>
+        <line x1="500" y1="90" x2="500" y2="124" stroke="#0f6e56" stroke-width="1.3" marker-end="url(#ag)"/>
+        <text x="510" y="110" font-size="10.5" fill="#0f6e56">卖家问题</text>
+        <line x1="540" y1="59" x2="620" y2="59" stroke="#878d99" stroke-width="1.2" marker-end="url(#ab)"/>
+        <text x="548" y="51" font-size="10.5" fill="#878d99">非卖家问题</text>
+        <rect x="622" y="34" width="254" height="50" rx="8" fill="#fff" stroke="#d2d1c9" stroke-width="1.1"/>
+        <text x="749" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d24">升级 / 转交</text>
+        <text x="749" y="73" text-anchor="middle" font-size="10.5" fill="#878d99">订单结构 · 产品 · 需求 · 管理者</text>
+        <text x="24" y="156" font-size="11.5" font-weight="700" fill="#0f6e56">第一层 · 卖家治理</text>
+        <rect x="380" y="124" width="244" height="54" rx="8" fill="#e3f4ee" stroke="#0f6e56" stroke-width="1.1"/>
+        <text x="502" y="146" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0a4f40">纳入限期整改 + 观察</text>
+        <text x="502" y="164" text-anchor="middle" font-size="10.5" fill="#0f6e56">即使未命中单卖家红线</text>
+        <rect x="24" y="124" width="186" height="54" rx="8" fill="#e3f4ee" stroke="#0f6e56" stroke-width="1.1"/>
+        <text x="117" y="146" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0a4f40">风险卖家命中</text>
+        <text x="117" y="164" text-anchor="middle" font-size="10.5" fill="#0f6e56">破规则红线 → 报警</text>
+        <line x1="210" y1="151" x2="244" y2="151" stroke="#0f6e56" stroke-width="1.3" marker-end="url(#ag)"/>
+        <rect x="246" y="124" width="120" height="54" rx="8" fill="#fff" stroke="#0f6e56" stroke-width="1.1"/>
+        <text x="306" y="146" text-anchor="middle" font-size="12" font-weight="700" fill="#0a4f40">核实 + 处置</text>
+        <text x="306" y="164" text-anchor="middle" font-size="10" fill="#0f6e56">警告 → 封禁</text>
+        <line x1="380" y1="151" x2="368" y2="151" stroke="#0f6e56" stroke-width="1.3" marker-end="url(#ag)"/>
+        <text x="450" y="220" font-size="10.5" fill="#878d99" font-style="italic">所有结论汇入周报 → 绿灯翻篇 · 红灯升级到管理者</text>
+      </svg>
+    </div>
+
+    <h3>3.1.1　每日卖家服务治理 SOP</h3>
+    <p>针对单个卖家,日常由 2 名卖家管理客服处理(命中量不大,可与客服日常并行)。</p>
+    <ol class="steps">
+      <li><div class="st">命中报警</div><div class="sd">卖家服务数据破规则红线 → 机器人自动报警,命中风险卖家(与数据监控分开的推送通道)。</div></li>
+      <li><div class="st">人工核实</div><div class="sd">客服确认是否确属服务差,排除买家原因、小基数误判。核实中发现的可固化逻辑,沉淀为命中前置过滤规则(优化①)。</div></li>
+      <li><div class="st">分级处置</div><div class="sd">确属服务差 → 由轻到重:① 警告　② 限期整改+观察　③ 下架　④ 禁止售卖(可提现)　⑤ 封禁(不可提现)。不属实 → 豁免、数据修正。</div></li>
+      <li><div class="st">效果回写</div><div class="sd">处置后记录效果数据(优化③),进入复盘。</div></li>
+    </ol>
+
+    <h4>处置流程图</h4>
+    <div class="flow">
+      <svg viewBox="0 0 900 180" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+        <defs><marker id="a1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L7,3 L0,6 Z" fill="#878d99"/></marker></defs>
+        <rect x="8" y="62" width="116" height="52" rx="8" fill="#e3f4ee" stroke="#0f6e56" stroke-width="1.1"/>
+        <text x="66" y="84" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0a4f40">卖家数据</text>
+        <text x="66" y="101" text-anchor="middle" font-size="11" fill="#0f6e56">破规则红线</text>
+        <line x1="124" y1="88" x2="158" y2="88" stroke="#878d99" stroke-width="1.3" marker-end="url(#a1)"/>
+        <rect x="160" y="62" width="116" height="52" rx="8" fill="#faedd6" stroke="#ec9a22" stroke-width="1.1"/>
+        <text x="218" y="84" text-anchor="middle" font-size="12.5" font-weight="700" fill="#8a5108">机器人报警</text>
+        <text x="218" y="101" text-anchor="middle" font-size="11" fill="#8a5108">命中风险卖家</text>
+        <line x1="276" y1="88" x2="310" y2="88" stroke="#878d99" stroke-width="1.3" marker-end="url(#a1)"/>
+        <rect x="312" y="62" width="126" height="52" rx="8" fill="#fff" stroke="#d2d1c9" stroke-width="1.1"/>
+        <text x="375" y="82" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1d24">客服核实</text>
+        <text x="375" y="99" text-anchor="middle" font-size="10.5" fill="#878d99">排除买家原因/小基数</text>
+        <line x1="438" y1="88" x2="472" y2="88" stroke="#878d99" stroke-width="1.3" marker-end="url(#a1)"/>
+        <path d="M536,52 L574,88 L536,124 L498,88 Z" fill="#f3f1eb" stroke="#878d99" stroke-width="1.1"/>
+        <text x="536" y="84" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1d24">确实</text>
+        <text x="536" y="99" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1d24">服务差?</text>
+        <line x1="536" y1="124" x2="536" y2="152" stroke="#878d99" stroke-width="1.3" marker-end="url(#a1)"/>
+        <text x="544" y="142" font-size="10.5" fill="#878d99">否</text>
+        <rect x="478" y="152" width="116" height="24" rx="6" fill="#efede6" stroke="#d2d1c9" stroke-width="1"/>
+        <text x="536" y="168" text-anchor="middle" font-size="11" fill="#454b57">豁免 · 数据修正</text>
+        <line x1="574" y1="88" x2="608" y2="88" stroke="#878d99" stroke-width="1.3" marker-end="url(#a1)"/>
+        <text x="586" y="80" font-size="10.5" fill="#878d99">是</text>
+        <rect x="610" y="40" width="282" height="96" rx="9" fill="#fbe9e9" stroke="#df4b4a" stroke-width="1.1"/>
+        <text x="751" y="60" text-anchor="middle" font-size="11.5" font-weight="700" fill="#a62c2c">分级处置(由轻到重)</text>
+        <text x="624" y="80" font-size="11" fill="#a62c2c">① 警告　② 限期整改 + 观察 ★新</text>
+        <text x="624" y="99" font-size="11" fill="#a62c2c">③ 下架　④ 禁止售卖(可提现)</text>
+        <text x="624" y="118" font-size="11" fill="#a62c2c">⑤ 封禁(不可提现)　· 效果回写复盘</text>
+      </svg>
+    </div>
+
+    <h4>三处优化(怎么做与价值)</h4>
+    <p><strong>① 命中规则动态更迭　</strong><span class="pill pill-keep">已在做</span><br>人工核实中发现可固化的判断逻辑(如基数过小不命中、买家恶意退款不计入),持续沉淀为前置过滤规则,减少机械核实。</p>
+    <p style="margin-top:12px"><strong>② 限期整改 + 观察档　</strong><span class="pill pill-fix">看板功能待建</span></p>
+    <ol class="steps">
+      <li><div class="st">触发</div><div class="sd">命中、核实确属服务差,但属于值得保留的卖家(如大卖家,或问题可整改)→ 不直接下架,进此档。</div></li>
+      <li><div class="st">整改窗口</div><div class="sd">给明确整改要求 + 窗口期(如 7 天)+ 复查时点。窗口内卖家正常经营,被标记为观察状态。</div></li>
+      <li><div class="st">到期复查</div><div class="sd">达标 → 解除观察、释放回监控池;未达标 → 升级到下一级处置。</div></li>
+    </ol>
+    <p style="font-size:13px;color:var(--ink2)"><strong>价值:</strong>给值得救的卖家改正机会,避免一刀切下架损失供给;时限与复查防止纵容。<strong>当前缺口:</strong>到期"自动释放回监控池"看板功能未实现,现靠人工记录,易漏放或忘记复查(待办 #2)。</p>
+    <p style="margin-top:12px"><strong>③ 处置效果回写　</strong><span class="pill pill-new">新增</span><br>每次处置后,系统记录该卖家或所在业务<strong>处置后的服务数据变化</strong>。</p>
+    <div class="callout co-key">
+      <div class="ct">这一项价值最大</div>
+      <p>本质是<strong>把主观裁决"上系统",补上效果追踪的空白</strong>。当前裁决靠人工经验,做完很少回头看效果。回写后:<strong>① </strong>每个裁决有"做了→效果如何"的完整记录;<strong>② </strong>能评估裁决是否有效、力度是否合适(如某类问题"警告"无效需直接整改,或某处置过重导致优质卖家流失),处置规则可基于证据迭代;<strong>③ </strong>反哺优化①,暴露哪些命中误判、哪些处置无效。</p>
+    </div>
+    <div class="callout co-info">
+      <div class="ct">三项如何串联</div>
+      <p><strong>回写(③)</strong>的效果数据,一方面<strong>验证整改档(②)</strong>是否真的让卖家改善,另一方面<strong>反哺规则更迭(①)</strong>。三者形成"执法 → 记录效果 → 评估有效性 → 优化规则与处置"的闭环。</p>
+    </div>
+
+    <h3>3.1.2　每日 / 每周数据监控 SOP</h3>
+    <p>针对业务/品类/平台三级数据本身,不针对单个卖家,补上第一层的盲区。</p>
+    <div class="callout co-info">
+      <div class="ct">这一层补的盲区</div>
+      <p>第一层只看卖家级,三种问题会漏过去:<strong>① 多个卖家各自略差</strong>(均未命中)累加拖垮业务;<strong>② 好卖家走、中等卖家替代</strong>,无单个卖家变差但业务整体下台阶;<strong>③ 订单结构变化</strong>(大额占比升→退款率升),无人做错但数据恶化。</p>
+    </div>
+    <h4>每日动作(机器人辅助,轻)</h4>
+    <ul>
+      <li>三级指标自动刷新,红线 + 趋势线双重扫描。</li>
+      <li>独立载体「每日业务服务健康度监控」只推异常项;无异常则一条绿灯汇总。</li>
+      <li><strong>此推送与卖家命中报警分开两个通道</strong>,避免被淹没。</li>
+    </ul>
+    <h4>每周动作(负责人核心职能:从被动到主动)</h4>
+    <p>过去靠管理者每周亲自盯数据、发现后指派;现在由每日监控自动沉淀异常,负责人<strong>主动</strong>对当周亮灯业务下钻。</p>
+    <ol class="steps">
+      <li><div class="st">归因</div><div class="sd">当周亮黄/红业务,定位是哪几个卖家拖的?属上述三种问题中的哪一种?</div></li>
+      <li><div class="st">分诊</div><div class="sd">卖家问题 → 回流第一层处置(哪怕未命中单卖家红线,纳入限期整改+观察);非卖家问题(订单结构/产品/需求)→ 升级或转对应负责人。</div></li>
+      <li><div class="st">出周报</div><div class="sd">本周亮灯项、归因结论、已采取/建议动作、需升级事项(见 §4.2)。</div></li>
+    </ol>
+    <div class="callout co-key">
+      <div class="ct">完整案例</div>
+      <p>某 Accounts 业务好评率周环比连跌 → 趋势线亮黄,但下面无卖家命中 → 周下钻发现 3 个卖家服务缓慢变差、各自未到红线但合起来拖垮业务 → 判定卖家问题 → 纳入限期整改+观察 → 窗口后复查:改善则解除,未改善则升级,回写复盘。</p>
+    </div>
+  </section>
+
+  <section id="p3b">
+    <div class="sec-num">3.2</div>
+    <h2>低价监测 SOP</h2>
+    <p>4 个低价业务(Dofus / WOW TBC / FC / Dofus Touch 金币),与服务<strong>共用同一套报警机制和推送通道</strong>,运营无需学新逻辑。</p>
+    <ol class="steps">
+      <li><div class="st">每日扫描</div><div class="sd">爬虫数据更新后,自动扫描价差优势比(主)与价格排名(辅)。</div></li>
+      <li><div class="st">亮灯</div><div class="sd">价差优势比触发趋势线(连续 3 周恶化)或排名跌出前三 → 黄灯;价差优势比跌破红线或连续 5 周恶化 → 红灯升级。</div></li>
+      <li><div class="st">下钻</div><div class="sd">优势比恶化时依次查:① 订单数是否下降　② 在售卖家数是否减少。到订单/卖家层即可,排序规则层转技术。</div></li>
+    </ol>
+  </section>
+
+  <section id="p3c">
+    <div class="sec-num">3.3</div>
+    <h2>游戏动态 SOP</h2>
+    <p>两项动作,篇幅从简:</p>
+    <ol class="steps">
+      <li><div class="st">日历维护与校准</div><div class="sd">持续更新实际更新记录日历;用实际记录复盘年初推测的准确度,迭代预判能力。</div></li>
+      <li><div class="st">每周订单量归因</div><div class="sd">分析本周订单数增减,对照日历判断是否游戏动态导致。<strong>必须有基础数据依托</strong>:若与流量相关,进一步定位是否 UV 下降、是哪个渠道的 UV 下降,不凭主观判断。</div></li>
+    </ol>
+  </section>
+
+  <section id="p3d">
+    <div class="sec-num">3.4</div>
+    <h2>复购监测 SOP</h2>
+    <p>只监测,动作简单:</p>
+    <ol class="steps">
+      <li><div class="st">每周看绝对数</div><div class="sd">观测复购买家绝对数(不看率)。</div></li>
+      <li><div class="st">下钻归因</div><div class="sd">连续 3 周下滑 → 下钻:同期游戏动态/订单量也降则为需求问题(转 §3.3);需求未降但服务指标恶化则为服务问题(回 §3.1)。</div></li>
+      <li><div class="st">上报</div><div class="sd">连续 4 周下滑或单月跌幅 &gt; 10% → 下钻结论上报管理者。</div></li>
+    </ol>
+  </section>
+
+  <!-- ============ PART 4 ============ -->
+  <div class="part-head">
+    <div class="pk">PART 04</div>
+    <div class="pt">职能与组织</div>
+    <div class="pd">谁来做、怎么协作。</div>
+  </div>
+
+  <section id="p4a">
+    <div class="sec-num">4.1</div>
+    <h2>角色与职能</h2>
+    <p>配置:<strong>1 名服务运营负责人 + 2 名卖家管理客服</strong>(从客服抽调)。负责人核心变化是<strong>从被动到主动</strong>。</p>
+    <div class="role">
+      <div class="r-top"><div class="r-badge">负</div><div><div class="r-name">服务运营负责人</div><div class="r-count">× 1　·　最终担责 + 第二层执行</div></div></div>
+      <div class="r-grid">
+        <div class="rk">核心职能</div><div>对平台级服务指标负最终责。主动驱动每周下钻、出周报、处理升级项;维护游戏动态日历;监测低价竞争力。</div>
+        <div class="rk">能力要求</div><div>懂交易履约全链路、能从指标下钻到根因、有跨卖家/风控/客服协调权、懂游戏版本节奏。</div>
+        <div class="rk">未来延展</div><div>后期第二段(漏点修复)、第三段(新业务)可能分配部分工作给该角色。</div>
+      </div>
+    </div>
+    <div class="role">
+      <div class="r-top"><div class="r-badge" style="background:var(--blue-soft);color:var(--blue)">客</div><div><div class="r-name">卖家管理客服</div><div class="r-count">× 2(从客服抽调)·　第一层执行</div></div></div>
+      <div class="r-grid">
+        <div class="rk">核心职能</div><div>卖家治理日常:风险卖家命中核实、分级处置、限期整改观察跟进;配合负责人做周下钻的数据拉取与卖家侧排查。可与客服日常并行。</div>
+        <div class="rk">能力要求</div><div>熟悉各品类服务特性、能直接对接卖家整改、细致可追溯。</div>
+      </div>
+    </div>
+    <div class="role">
+      <div class="r-top"><div class="r-badge" style="background:var(--amber-soft);color:var(--amber)">BI</div><div><div class="r-name">数据 / BI</div><div class="r-count">支持</div></div></div>
+      <div class="r-grid">
+        <div class="rk">核心职能</div><div>保障三级指标与趋势检测的口径与自动化;交付待建功能(限期观察自动释放、每日健康度监控载体);取低价红线数值;设定增长苗子增速阈值。</div>
+      </div>
+    </div>
+
+    <h3>RACI 总表</h3>
+    <div class="legend raci">
+      <span><span class="b R">R</span>执行</span><span><span class="b A">A</span>最终担责</span><span><span class="b C">C</span>被咨询</span><span><span class="b I">I</span>被同步</span>
+    </div>
+    <div class="tbl-wrap"><table class="raci">
+      <thead><tr><th>工作项</th><th class="c">负责人</th><th class="c">客服×2</th><th class="c">BI</th><th class="c">管理者</th></tr></thead>
+      <tbody>
+        <tr><td>风险卖家命中→处置</td><td class="c"><span class="b A">A</span></td><td class="c"><span class="b R">R</span></td><td class="c"><span class="b C">C</span></td><td class="c"><span class="b I">I</span></td></tr>
+        <tr><td>命中规则更迭</td><td class="c"><span class="b A">A</span></td><td class="c"><span class="b R">R</span></td><td class="c"><span class="b R">R</span></td><td class="c"><span class="b I">I</span></td></tr>
+        <tr><td>每日数据监控</td><td class="c"><span class="b A">A</span></td><td class="c"><span class="b C">C</span></td><td class="c"><span class="b R">R</span></td><td class="c"><span class="b I">I</span></td></tr>
+        <tr><td>周下钻 + 分诊</td><td class="c"><span class="b R">R</span> <span class="b A">A</span></td><td class="c"><span class="b C">C</span></td><td class="c"><span class="b C">C</span></td><td class="c"><span class="b I">I</span></td></tr>
+        <tr><td>周报</td><td class="c"><span class="b R">R</span></td><td class="c"><span class="b C">C</span></td><td class="c"><span class="b C">C</span></td><td class="c"><span class="b A">A</span></td></tr>
+        <tr><td>低价竞争力监测</td><td class="c"><span class="b R">R</span> <span class="b A">A</span></td><td class="c"><span class="b C">C</span></td><td class="c"><span class="b R">R</span></td><td class="c"><span class="b I">I</span></td></tr>
+        <tr><td>游戏动态追踪</td><td class="c"><span class="b R">R</span></td><td class="c"><span class="b I">I</span></td><td class="c"><span class="b C">C</span></td><td class="c"><span class="b I">I</span></td></tr>
+        <tr><td>复购监测</td><td class="c"><span class="b R">R</span></td><td class="c"><span class="b I">I</span></td><td class="c"><span class="b C">C</span></td><td class="c"><span class="b A">A</span></td></tr>
+        <tr><td>处理升级项</td><td class="c"><span class="b C">C</span></td><td class="c"><span class="b I">I</span></td><td class="c"><span class="b I">I</span></td><td class="c"><span class="b A">A</span> <span class="b R">R</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="p4b">
+    <div class="sec-num">4.2</div>
+    <h2>协作机制:周报与升级</h2>
+    <p>周报是管理者了解基本盘的唯一入口。绿灯翻篇、黄灯知悉、红灯升级。</p>
+    <h3>4.2.1　周报结构</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:140px">板块</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>① 平台总览</td><td>平台级 6 指标红绿灯一行 + 本周状态</td></tr>
+        <tr><td>② 亮灯清单</td><td>亮黄/红的品类与业务:指标、当前值 vs 红线、趋势</td></tr>
+        <tr><td>③ 下钻归因</td><td>每个亮灯项的归因结论 + 分诊去向</td></tr>
+        <tr><td>④ 已采取动作</td><td>本周卖家处置、纳入观察、转交事项</td></tr>
+        <tr><td>⑤ 升级项</td><td>需管理者决策的事项</td></tr>
+        <tr><td>⑥ 低价竞争力</td><td>4 个低价业务的价差优势比 / 排名变化(附竞品对比)</td></tr>
+        <tr><td>⑦ 游戏动态 + 订单归因</td><td>TOP10 日历临近节点 + 本周订单量变化原因(附数据)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>4.2.2　升级到管理者的条件</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:230px">触发</th><th>升级动作</th></tr></thead>
+      <tbody>
+        <tr><td><span class="dot dot-r"></span>平台级任一主指标破红线</td><td>当周升级,负责人给止血方案</td></tr>
+        <tr><td><span class="dot dot-r"></span>任一品类连续 4 周趋势恶化</td><td>升级,出整改方案</td></tr>
+        <tr><td><span class="dot dot-r"></span>低价业务价差优势比破红线 / 持续恶化</td><td>升级,下钻订单/卖家并出方案</td></tr>
+        <tr><td><span class="dot dot-r"></span>复购绝对数破阈值且归因指向服务</td><td>升级(指向需求则转 §3.3)</td></tr>
+        <tr><td><span class="dot dot-y"></span>增长苗子服务持续恶化、危及增长</td><td>升级,提前介入</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout co-info">
+      <div class="ct">管理者角色</div>
+      <p>从"每周亲自盯数据的发起人",转为"<strong>只看周报结论、只处理升级项的验收人</strong>"。绿灯黄灯不惊动,只有红灯升级。这是从基本盘抽身、把精力转向增长的保证。</p>
+    </div>
+  </section>
+
+  <!-- ============ PART 5 ============ -->
+  <div class="part-head">
+    <div class="pk">PART 05</div>
+    <div class="pt">落地待办清单</div>
+    <div class="pd">机制要运转起来,以下事项需先就位。按责任方与优先级排列。</div>
+  </div>
+
+  <section id="p5">
+    <div class="sec-num">5</div>
+    <h2>待办清单</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:36px">#</th><th>待办</th><th style="width:110px">责任方</th><th style="width:80px">优先级</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>「每日业务服务健康度监控」载体搭建</strong>,独立推送通道(与卖家命中分开)</td><td>BI</td><td><span class="pill pill-hard">高</span></td></tr>
+        <tr><td>2</td><td><strong>限期整改+观察到期自动释放回监控池</strong>(看板功能)</td><td>BI</td><td><span class="pill pill-hard">高</span></td></tr>
+        <tr><td>3</td><td>三层红线值与趋势线阈值<strong>固化进监控规则</strong>(§2.1)</td><td>BI + 负责人</td><td><span class="pill pill-hard">高</span></td></tr>
+        <tr><td>4</td><td>负责人<strong>周下钻从被动改为主动</strong>发起</td><td>负责人</td><td><span class="pill pill-hard">高</span></td></tr>
+        <tr><td>5</td><td>命中规则<strong>前置过滤</strong>沉淀(小基数/恶意退款剔除)</td><td>客服 + BI</td><td><span class="pill pill-fix">中</span></td></tr>
+        <tr><td>6</td><td><strong>处置效果回写</strong>字段与复盘机制</td><td>负责人 + BI</td><td><span class="pill pill-fix">中</span></td></tr>
+        <tr><td>7</td><td><strong>低价价差优势比红线取数</strong> + 纳入每日监控同一通道</td><td>BI</td><td><span class="pill pill-fix">中</span></td></tr>
+        <tr><td>8</td><td>游戏动态"推测 vs 实际"<strong>校准</strong>纳入日常</td><td>负责人</td><td><span class="pill pill-soft">低</span></td></tr>
+        <tr><td>9</td><td>增长苗子入口数据口径 <strong>增速阈值</strong>设定 + 自动升档</td><td>BI</td><td><span class="pill pill-soft">低</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <div class="foot">
+    <p><strong>iGV 基本盘维持运营手册 · 执行版</strong></p>
+    <p>数据区间 2024.01–2026.05　|　红线基准期 2025.01–2026.05　|　本手册仅覆盖基本盘维持。第二段(漏点修复)、第三段(新业务)另行制定,其重点业务自动纳入本手册"增长苗子"档监控。</p>
+  </div>
+
+</main>
+</div>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  var map = {};
+  links.forEach(function(a){
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if(el) map[id] = a;
+  });
+  var ids = Object.keys(map);
+  function onScroll(){
+    var line = 110;
+    var current = ids[0];
+    for(var i=0;i<ids.length;i++){
+      var el = document.getElementById(ids[i]);
+      if(el && el.getBoundingClientRect().top <= line) current = ids[i];
+    }
+    links.forEach(function(a){a.classList.remove('active');});
+    if(map[current]) map[current].classList.add('active');
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
